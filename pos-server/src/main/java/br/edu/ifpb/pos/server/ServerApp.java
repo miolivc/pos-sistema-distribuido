@@ -18,17 +18,18 @@ import java.rmi.registry.Registry;
  * @author miolivc
  */
 public class ServerApp {
-    
+
     public static void main(String[] args) throws RemoteException, AlreadyBoundException, NotBoundException {
-        
-        Messenger messenger = new Messenger();
-        
+
         Service service = new Service("messenger", "localhost", 10998);
         ServiceProvider provider = (ServiceProvider) LocateRegistry.getRegistry(10999).lookup("provider");
         provider.register(service);
+
+        Messenger messenger = new Messenger(provider);
+
         Registry registry = LocateRegistry.createRegistry(10998);
         registry.bind("messenger", messenger);
         System.out.println("Servidor Ativo!");
     }
-    
+
 }
