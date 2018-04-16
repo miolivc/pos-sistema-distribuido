@@ -21,8 +21,9 @@ public class ServerApp {
 
     public static void main(String[] args) throws RemoteException, AlreadyBoundException, NotBoundException {
 
-        Service service = new Service("messenger", "localhost", 10998);
-        ServiceProvider provider = (ServiceProvider) LocateRegistry.getRegistry(10999).lookup("provider");
+        Service service = new Service("messenger", "127.0.0.1", 10998);
+        ServiceProvider provider = (ServiceProvider) 
+                LocateRegistry.getRegistry("127.0.0.1", 10999).lookup("provider");
         provider.register(service);
 
         Messenger messenger = new Messenger(provider);

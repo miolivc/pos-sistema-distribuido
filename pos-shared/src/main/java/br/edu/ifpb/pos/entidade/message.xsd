@@ -1,0 +1,14 @@
+<xsd:schema version="1.0"
+           xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified">
+    <xsd:element name="mensagem">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="para" type="xsd:string"></xsd:element>
+                <xsd:element name="de" type="xsd:string"></xsd:element>
+                <xsd:element name="criadoEm" type="xsd:string"></xsd:element>
+                <xsd:element name="corpo" type="xsd:string"></xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

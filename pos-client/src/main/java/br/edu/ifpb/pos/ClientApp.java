@@ -1,29 +1,30 @@
 package br.edu.ifpb.pos;
 
 import br.edu.ifpb.pos.entidade.Mensagem;
+import br.edu.ifpb.pos.entidade.MessageValidator;
 import br.edu.ifpb.pos.entidade.MessengerService;
 import br.edu.ifpb.pos.entidade.ServiceProvider;
-import java.io.File;
 import java.io.StringWriter;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.time.LocalDateTime;
-import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-import javax.xml.validation.SchemaFactory;
 import org.xml.sax.SAXException;
 
 public class ClientApp {
 
-    static Mensagem message = new Mensagem("michelle", "wellington", LocalDateTime.now(), "Opa lele");
+    static Mensagem message = new 
+        Mensagem("michelle", "wellington", LocalDateTime.now(), "Opa lele");
 
-    public static void main(String[] args) throws RemoteException, NotBoundException, SAXException, JAXBException {
+    public static void main(String[] args) 
+            throws RemoteException, NotBoundException, SAXException, JAXBException {
 
-        ServiceProvider provider = (ServiceProvider) LocateRegistry.getRegistry("localhost", 10999)
-                .lookup("provider");
+        ServiceProvider provider = (ServiceProvider) 
+                LocateRegistry.getRegistry("localhost", 10999)
+                              .lookup("provider");
 
 //        File xmlValidator = new File("src/main/resources/message.xsd");
 //        String xmlMessage = buildMessage(message, xmlValidator);
@@ -31,7 +32,9 @@ public class ClientApp {
         sendMessage(xmlMessage, provider);
     }
 
-    public static String buildMessage(Mensagem message) throws SAXException, JAXBException {
+    public static String buildMessage(Mensagem message) 
+            throws SAXException, JAXBException {
+        
         JAXBContext jaxbContext = JAXBContext.newInstance(Mensagem.class);
 
         Marshaller marshaller = jaxbContext.createMarshaller();
@@ -50,7 +53,7 @@ public class ClientApp {
 
     public static void sendMessage(String xmlMessage, ServiceProvider provider) throws RemoteException {
         MessengerService messenger = provider.lookup("messenger", MessengerService.class);
-        if (provider.validSchema(xmlMessage)) {
+        if (MessageValidator.validate(xmlMessage)) {
             messenger.sendMessage(xmlMessage);
         } else {
             System.err.println("Xml errado irmao");

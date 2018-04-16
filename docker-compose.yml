@@ -1,0 +1,27 @@
+version: '2'
+services:
+    locator:
+        build: ./pos-service-locator
+        image: miolivc/locator
+        container_name: locator
+        ports: 
+            - "10998:10998"
+    server:
+        build: ./pos-server
+        image: miolivc/server
+        container_name: server
+        ports: 
+            - "10999:10999" 
+        links: 
+            - "locator:host-locator"
+            - "server:host-this"
+        depends_on:
+            - locator
+    client:
+        build: ./pos-client
+        image: miolivc/client
+        container_name: client
+        links:
+            - "locator: host-locator"
+        depends_on:
+            - server

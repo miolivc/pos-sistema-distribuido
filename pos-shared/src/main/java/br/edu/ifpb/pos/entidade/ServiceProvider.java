@@ -8,6 +8,6 @@ public interface ServiceProvider extends Remote {
     
     void register(Service service) throws RemoteException;
     <T> T lookup(String service, Class clazz) throws RemoteException;
-    boolean validSchema(String message) throws RemoteException;
+//    boolean validSchema(String message) throws RemoteException;
     
 }

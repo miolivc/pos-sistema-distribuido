@@ -5,6 +5,7 @@
  */
 package br.edu.ifpb.pos.server;
 
+import br.edu.ifpb.pos.entidade.MessageValidator;
 import br.edu.ifpb.pos.entidade.MessengerService;
 import br.edu.ifpb.pos.entidade.ServiceProvider;
 import java.rmi.RemoteException;
@@ -25,7 +26,7 @@ public class Messenger extends UnicastRemoteObject implements MessengerService {
     @Override
     public void sendMessage(String message) throws RemoteException {
 
-        if (provider.validSchema(message)) {
+        if (MessageValidator.validate(message)) {
             System.out.println("Processando..." + message);
         } else {
             System.out.println("Xml errado parsa!");
